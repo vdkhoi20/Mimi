@@ -1,4 +1,4 @@
-# Hera
+# Mimi
 
 !pip install transformers
 
@@ -9,6 +9,6 @@
 !pip install gradio
 
 
-!git clone https://github.com/vdkhoi20/Hera.git
+!git clone https://github.com/vdkhoi20/Mimi.git
 
-!python Hera/app.py --chatkey= --skinkey=
+!python Mimi/app.py --chatkey= --skinkey=

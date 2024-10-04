@@ -54,6 +54,6 @@ if __name__ == "__main__":
 
   Main = gr.TabbedInterface([BrainTumor.create_brain_tumor_detect(), Pneumonia.create_pneumonia_tab(), Detectskindisease.create_skin_tab(skinkey),ChatBot.create_Chatbot_tab(chatkey)],
                             tab_names = ["Chẩn Đoán Khối U Não", "Chẩn Đoán Tình Trạng Phổi", "Chẩn Đoán Bệnh Ngoài Da", "Tư Vấn Sức Khỏe Thông Minh"],
-                            theme = "HaleyCH/HaleyCH_Theme",
+                            theme = "ParityError/Anime",
                             js = js,css=css)
   Main.launch( share=True, debug = True)
