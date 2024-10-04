@@ -12,7 +12,7 @@ function createGradioAnimation() {
     container.style.textAlign = 'center';
     container.style.marginBottom = '20px';
 
-    var text = 'Welcome to Hera!';
+    var text = 'Welcome to Mimi!';
     for (var i = 0; i < text.length; i++) {
         (function(i){
             setTimeout(function(){

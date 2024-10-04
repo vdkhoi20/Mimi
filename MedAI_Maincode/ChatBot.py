@@ -14,7 +14,7 @@ key = "f914daada5mshde035a916247607p148638jsn0abe47d56130"
 #         "Trả lời rằng bạn không thể hỗ trợ các vấn đề không liên quan đến sức khỏe khi nhận các câu hỏi không liên quan đến sức khỏe. "
 
 #   )}
-system_message = '''Bạn là một trợ lý tư vấn chăm sóc sức khỏe tên là Dr.Hera.
+system_message = '''Bạn là một trợ lý tư vấn chăm sóc sức khỏe tên là Dr.Mimi.
 Hãy hỏi rõ về triệu chứng khi người dùng gặp một vấn đề nào đó,
 hãy cung cấp thông tin hoặc lời khuyên khi người dùng nói về một căn bệnh nào đó.
 Lưu ý người dùng của bạn là một người Việt Nam không có kiến thức về y tế,
@@ -69,6 +69,6 @@ def chatbotfnc(message, history):
 
 def create_Chatbot_tab(chatkey="Fix bug key"):
 
-  Chatbot_tab = gr.ChatInterface(fn=chatbotfnc, examples=["Tôi bị đau dạ dày mạn tính vừa rồi tôi ăn xoài chua,tôi nên làm gì đây?", "Tôi khó thở vì covid tôi nên làm gì đây", "Tôi bị đau dạ dày lâu năm"], title="Bs.Hera",                        description = "Trợ lý ảo - tư vấn sức khỏe", theme = "soft", submit_btn = "Gửi", retry_btn = "Thử lại",
+  Chatbot_tab = gr.ChatInterface(fn=chatbotfnc, examples=["Tôi bị đau dạ dày mạn tính vừa rồi tôi ăn xoài chua,tôi nên làm gì đây?", "Tôi khó thở vì covid tôi nên làm gì đây", "Tôi bị đau dạ dày lâu năm"], title="Bs.Mimi",                        description = "Trợ lý ảo - tư vấn sức khỏe", theme = "soft", submit_btn = "Gửi", retry_btn = "Thử lại",
                         undo_btn = "Quay lại", clear_btn = "Xóa toàn bộ", stop_btn = "Tạm dừng")
   return Chatbot_tab
