@@ -4,7 +4,7 @@ from PIL import Image
 import io
 import numpy as np
 import os
-key = "2cff2aab49msh5191ef59693cc02p1091a7jsnd7100bb29621"
+
 trans_disease = {
     "acne": "mụn",
     "actinic_keratosis": "chứng dày sừng quang hóa",
