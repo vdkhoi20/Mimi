@@ -79,66 +79,67 @@ trans_body = {
     "chin": "cằm",
     "unknown" : "bộ phận chưa rõ"
 }
-def detect_skin_disease(image,key):
-    try:
-
-        # Convert NumPy array to image file-like object
-        img = Image.fromarray((image * 255).astype('uint8'))
-        img_byte_array = io.BytesIO()
-        img.save(img_byte_array, format='PNG')
-        img_byte_array.seek(0)
-
-        url = "https://detect-skin-disease.p.rapidapi.com/facebody/analysis/detect-skin-disease"
-        # files = {"image": img_byte_array}
-        files = {"image": ("image.png", img_byte_array, "image/png")}
-        headers = {
-            "X-RapidAPI-Key": key,
-            "X-RapidAPI-Host": "detect-skin-disease.p.rapidapi.com"
-        }
-        response = requests.post(url, files=files, headers=headers)
-        response_json = response.json()
-       
-        output = ""
-
-        if 'data' in response_json:
-            body_part = response_json['data'].get('body_part')
-            results = response_json['data'].get('results_english')
-
-            if body_part is not None:
-                vnese_body = trans_body[body_part]
-                output += f"Phần của cơ thể: {vnese_body} ({body_part})\n"
-                
-            if results is not None:
-              output += " Kết quả phân tích:      "
-
-              # Sort the results by probability percentage in descending order
-              sorted_results = sorted(results.items(), key=lambda x: x[1], reverse=True)
-
-              for disease, probability in sorted_results:
-                probability_percent = probability * 100
-                vnese_disease = trans_disease.get(disease, disease)
-                if probability_percent >= 10:
-                  output += f"{vnese_disease} : {probability_percent:.2f}%\n"
-
-            return output
-        else:
-            return "Không có dữ liệu phản hồi từ API."
-    except Exception as e:
-        return f"Error: {str(e)}"
-
 def create_skin_tab(skinkey="2cff2aab49msh5191ef59693cc02p1091a7jsnd7100bb29621"):
+    
+    def detect_skin_disease(image):
+        try:
+
+            # Convert NumPy array to image file-like object
+            img = Image.fromarray((image * 255).astype('uint8'))
+            img_byte_array = io.BytesIO()
+            img.save(img_byte_array, format='PNG')
+            img_byte_array.seek(0)
+
+            url = "https://detect-skin-disease.p.rapidapi.com/facebody/analysis/detect-skin-disease"
+            # files = {"image": img_byte_array}
+            files = {"image": ("image.png", img_byte_array, "image/png")}
+            headers = {
+                "X-RapidAPI-Key": skinkey,
+                "X-RapidAPI-Host": "detect-skin-disease.p.rapidapi.com"
+            }
+            response = requests.post(url, files=files, headers=headers)
+            response_json = response.json()
+        
+            output = ""
+
+            if 'data' in response_json:
+                body_part = response_json['data'].get('body_part')
+                results = response_json['data'].get('results_english')
+
+                if body_part is not None:
+                    vnese_body = trans_body[body_part]
+                    output += f"Phần của cơ thể: {vnese_body} ({body_part})\n"
+                    
+                if results is not None:
+                    output += " Kết quả phân tích:      "
+
+                # Sort the results by probability percentage in descending order
+                sorted_results = sorted(results.items(), key=lambda x: x[1], reverse=True)
+
+                for disease, probability in sorted_results:
+                    probability_percent = probability * 100
+                    vnese_disease = trans_disease.get(disease, disease)
+                    if probability_percent >= 10:
+                        output += f"{vnese_disease} : {probability_percent:.2f}%\n"
+
+                return output
+            else:
+                return "Không có dữ liệu phản hồi từ API."
+        except Exception as e:
+            return f"Error: {str(e)}"
+
+    
     css = """
     .textboxskin {
         font-sxxxxize: 50px; !important;
     }
     """
     with gr.Blocks(css=css) as demo:
-        keybox = gr.Text(value=skinkey,visible=False)
         gr.Markdown("Hãy tải ảnh lên và nhấn **Xử Lý** để chẩn đoán bệnh ngoài da.")
         with gr.Row():
           inp = gr.Image(type="numpy",height=512, width=512,
           value=os.path.join(os.path.dirname(__file__), "../Image/thuydau.jpg"))
           out = gr.Label(label="Kết Quả Dự Đoán",elem_classes="textboxskin")
         btn = gr.Button("Xử Lý")
-        btn.click(fn=detect_skin_disease, inputs=[inp,keybox], outputs=out)
+        btn.click(fn=detect_skin_disease, inputs=[inp], outputs=out)
     return demo
